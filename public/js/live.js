@@ -1,0 +1,2 @@
+async function refresh(){ const id=document.getElementById('eventSelect').value; if(!id) return; const r=await fetch(`/api/events/${id}/live`); const d=await r.json(); document.getElementById('count').textContent=d.count; document.getElementById('rows').innerHTML=d.rows.map(x=>`<tr><td>${x.checked_in_at}</td><td>${x.student_no}</td><td>${x.name}</td><td>${x.department}</td></tr>`).join(''); }
+document.getElementById('eventSelect').addEventListener('change', refresh); refresh(); setInterval(refresh, 5000);
