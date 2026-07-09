@@ -1,0 +1,4 @@
+function tokenFrom(value){ try { const u = new URL(value); return u.pathname.split('/').pop(); } catch { return value.trim(); } }
+const form=document.getElementById('checkin');
+if(form){ form.addEventListener('submit', async e=>{ e.preventDefault(); const token=tokenFrom(document.getElementById('token').value); const student_no=document.getElementById('student_no').value.trim(); const res=await fetch('/api/attendance',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token,student_no})}); const data=await res.json(); const out=document.getElementById('result'); out.className=data.ok?'alert success':'alert danger'; out.textContent=data.message; if(data.ok) document.getElementById('student_no').value=''; }); }
+if(window.Html5Qrcode){ const qr=new Html5Qrcode('reader'); Html5Qrcode.getCameras().then(cams=>{ if(cams.length) qr.start(cams[0].id,{fps:10,qrbox:250}, text=>{ document.getElementById('token').value=text; }); }).catch(()=>{}); }
